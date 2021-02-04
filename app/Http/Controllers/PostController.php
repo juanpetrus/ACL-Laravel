@@ -30,6 +30,14 @@ class PostController extends Controller
      */
     public function create()
     {
+        if(!Auth::user()->hasPermissionTo('Criar_Post')):
+            throw new UnauthorizedException(403, 'Não Autorizado, contate um admistrador.');
+        endif;
+
+        //if(!Auth::user()->hasRole('Administrador')):
+        //    throw new UnauthorizedException(403, 'Não Autorizado, contate um admistrador.');
+        //endif;
+
         return view('posts.create');
     }
 
@@ -41,6 +49,9 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        if(!Auth::user()->hasPermissionTo('Criar_Post')):
+            throw new UnauthorizedException(403, 'Não Autorizado, contate um admistrador.');
+        endif;
         $post = new Post();
         $post->title = $request->title;
         $post->content = $request->content;
